@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SpoilAlert</string>
+    <string name="take_photo">Take photo</string>
+    <string name="no_camera">No camera found</string>
 </resources>

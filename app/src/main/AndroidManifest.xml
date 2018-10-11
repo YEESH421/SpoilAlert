@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dfreez3.spoilalert">
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +22,8 @@
         <activity android:name=".SplashActivity" />
         <activity android:name=".AddFoodActivity" />
         <activity android:name=".ScanFoodActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
     </application>
+
 
 </manifest>
