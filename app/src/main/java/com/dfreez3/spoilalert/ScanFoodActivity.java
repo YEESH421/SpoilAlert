@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 public class ScanFoodActivity extends AppCompatActivity implements View.OnClickListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final String TAG = "ScanFood";
 
     private Button mTakePhotoButton;
     private ImageView mImageView;
@@ -24,18 +26,21 @@ public class ScanFoodActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_scan_food);
 
         mTakePhotoButton = findViewById(R.id.take_photo_button);
+        mTakePhotoButton.setOnClickListener(this);
         mImageView = findViewById(R.id.image_preview);
     }
 
+    @Override
     public void onClick(View v){
         if(v.getId() == mTakePhotoButton.getId()){
             // Ensure that the device actually has a camera
-            PackageManager pm =  getPackageManager();
+            PackageManager pm = getPackageManager();
             if(pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)){
                 // Fire off intent to take picture using default camera app
                 dispatchTakePictureIntent();
             } else {
                 Toast.makeText(this, R.string.no_camera, Toast.LENGTH_LONG).show();
+                Log.d(TAG, "No camera available on device");
             }
         }
     }
@@ -47,6 +52,8 @@ public class ScanFoodActivity extends AppCompatActivity implements View.OnClickL
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mImageView.setImageBitmap(imageBitmap);
+        } else {
+            Log.d(TAG, "Completed activity is not one we were listening for");
         }
     }
 
@@ -57,6 +64,8 @@ public class ScanFoodActivity extends AppCompatActivity implements View.OnClickL
         // dispatched
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } else {
+            Log.d(TAG, "No camera application installed to use camera hardware");
         }
     }
 
