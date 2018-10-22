@@ -15,21 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FridgeActivity">
-
-        </activity>
-        <activity android:name=".SplashActivity" />
-        <activity android:name=".AddFoodActivity">
-
-        </activity>
-        <activity android:name=".ScanFoodActivity">
+        <activity
+            android:name=".FridgeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.dfreez3.spoilalert.SplashActivity" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
+        <activity android:name="com.dfreez3.spoilalert.AddFoodActivity" />
+        <activity android:name="com.dfreez3.spoilalert.ScanFoodActivity" />
+        <activity android:name="com.dfreez3.spoilalert.SettingsActivity" />
     </application>
 
 
