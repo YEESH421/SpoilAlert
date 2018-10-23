@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "453795198902",
+    "firebase_url": "https://spoilalert-1abee.firebaseio.com",
+    "project_id": "spoilalert-1abee",
+    "storage_bucket": "spoilalert-1abee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453795198902:android:f11319049a805e0c",
+        "android_client_info": {
+          "package_name": "com.dfreez3.spoilalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453795198902-6v2csiip0vof1kpgjmv5rv3nor10ped9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFXHpIt-u_DXFoCbMoCGwyBUR7jB_wzfY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
