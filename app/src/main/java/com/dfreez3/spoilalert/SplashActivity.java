@@ -11,7 +11,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+        //setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -33,6 +33,6 @@ public class SplashActivity extends AppCompatActivity {
                 //overridePendingTransition(R.transition.fadein, R.transition.fadeout);
                 startActivity(Fridge);
             }
-        }, 0);
+        }, 1000);
     }
 }
