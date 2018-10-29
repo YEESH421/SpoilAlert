@@ -30,6 +30,10 @@
         <activity android:name="com.dfreez3.spoilalert.AddFoodActivity" />
         <activity android:name="com.dfreez3.spoilalert.ScanFoodActivity" />
         <activity android:name="com.dfreez3.spoilalert.SettingsActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 

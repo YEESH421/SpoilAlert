@@ -3,4 +3,10 @@
     <color name="colorPrimary">#70f3cc</color>
     <color name="colorPrimaryDark">#69A0F2</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="colorFoodDefault">#DDDDDD</color>
+    <color name="colorFoodRed">#ff6666</color>
+    <color name="colorFoodOrange">#ff8c66</color>
+    <color name="colorFoodLimeGreen">#beff93</color>
+    <color name="colorFoodGreen">#50ff82</color>
 </resources>
