@@ -24,15 +24,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
     private FoodAdapter arrayAdapter;
 
     private void createList() {
-//        String[] items = { "Apple", "Banana", "Eggs" };
-
-//        listContents = new ArrayList<>(Arrays.asList(items));
-//        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listContents);
-
         listContents = new ArrayList<>();
-        listContents.add(new FoodModel("Apple", new Date()));
-        listContents.add(new FoodModel("Banana", new Date()));
-        listContents.add(new FoodModel("Eggs", new Date()));
+        listContents.add(new FoodModel("Apple", new Date(), 432000000L));
+        Date bananaDate = new Date(new Date().getTime() - 300000000L);
+        listContents.add(new FoodModel("Banana", bananaDate, 432000000L));
+        listContents.add(new FoodModel("Eggs", new Date(), 432000000L));
 
         arrayAdapter = new FoodAdapter(listContents, this);
 

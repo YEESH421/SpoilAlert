@@ -1,6 +1,7 @@
 package com.dfreez3.spoilalert;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FoodAdapter extends ArrayAdapter<FoodModel> {
 
@@ -48,17 +50,34 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> {
         }
 
         viewHolder.txtName.setText(foodModel.getName());
-        viewHolder.txtDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(foodModel.getExpirationDate()));
+        viewHolder.txtDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(foodModel.getPurchaseDate()));
 
-        setProgress(viewHolder.progressBar);
+        RelativeLayout background = convertView.findViewById(R.id.item_background);
+
+        setProgress(foodModel, viewHolder.progressBar, background);
 
         return convertView;
     }
 
-    private void setProgress(RelativeLayout relativeLayout) {
-        ViewGroup.LayoutParams params = relativeLayout.getLayoutParams();
-        params.width = 200;
-        relativeLayout.setLayoutParams(params);
+    private void setProgress(FoodModel foodModel, RelativeLayout progressLayout, final RelativeLayout bgLayout) {
+        final ViewGroup.LayoutParams progressParams = progressLayout.getLayoutParams();
+
+        /*
+         * Create constant aliases.
+         */
+        final Date currentTime = new Date();
+        final FoodModel foodModelF = foodModel;
+        final RelativeLayout progressLayoutF = progressLayout;
+
+        bgLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                double expirationPercent =
+                        (double) (currentTime.getTime() - foodModelF.getPurchaseDate().getTime()) / (double) foodModelF.getExpirationPeriod();
+                progressParams.width = (int) ((1.0 - expirationPercent) * (double) bgLayout.getWidth());
+                progressLayoutF.setLayoutParams(progressParams);
+            }
+        });
     }
 
 }

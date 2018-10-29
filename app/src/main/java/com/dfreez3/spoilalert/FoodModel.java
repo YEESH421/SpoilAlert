@@ -5,19 +5,25 @@ import java.util.Date;
 public class FoodModel {
 
     private String name;
-    private Date expirationDate;
+    private Date purchaseDate;
+    private long expirationPeriod;
 
-    public FoodModel(String name, Date expirationDate) {
+    public FoodModel(String name, Date purchaseDate, long expirationPeriod) {
         this.name = name;
-        this.expirationDate = expirationDate;
+        this.purchaseDate = purchaseDate;
+        this.expirationPeriod = expirationPeriod;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public Date getExpirationDate() {
-        return this.expirationDate;
+    public Date getPurchaseDate() {
+        return this.purchaseDate;
+    }
+
+    public long getExpirationPeriod() {
+        return this.expirationPeriod;
     }
 
 }
