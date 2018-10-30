@@ -2,4 +2,9 @@
     <string name="app_name">SpoilAlert</string>
     <string name="take_photo">Take photo</string>
     <string name="no_camera">No camera found</string>
+    <string name="add_new_item">Add New Item</string>
+    <string name="name">Name:</string>
+    <string name="manual_expiration_date">Manual Expiration Date</string>
+    <string name="expires_on">Expires on:</string>
+    <string name="expiration_notice">*If you don\'t know, we\'ll estimate one for you.</string>
 </resources>

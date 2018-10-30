@@ -9,4 +9,5 @@
     <color name="colorFoodOrange">#FFd3A1</color>
     <color name="colorFoodLimeGreen">#C9FF92</color>
     <color name="colorFoodGreen">#9FFFB9</color>
+    <color name="transparentWhite">#e6ffffff</color>
 </resources>
