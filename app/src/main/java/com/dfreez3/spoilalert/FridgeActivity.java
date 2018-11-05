@@ -19,6 +19,7 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
     private Timer autoUpdate;
 
     private ImageView addButton;
+    private ImageView search;
 
     private ArrayList<FoodModel> listContents;
     private FoodAdapter arrayAdapter;
@@ -47,6 +48,8 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
                     AddFoodActivity.class
             );
             startActivity(addFoodIntent);
+        } else if(v.getId() == search.getId()) {
+
         }
     }
 
@@ -74,6 +77,9 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
         addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(this);
+        search = findViewById(R.id.search_button);
+        search.setOnClickListener(this);
+
 
         createList();
     }
