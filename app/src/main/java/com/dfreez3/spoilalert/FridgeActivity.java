@@ -45,13 +45,16 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
     private void loadJSONData() {
         String in = getItemFileContents();
 
-        Log.i("", in);
         try {
             JSONObject reader = new JSONObject(in);
             JSONArray items = reader.getJSONArray("items");
 
             for(int i = 0; i < items.length(); i++) {
-                listContents.add(new FoodModel(items.getJSONObject(i).getString("name"), new Date(), 432000000L));
+                listContents.add(new FoodModel(
+                        items.getJSONObject(i).getString("name"),
+                        new Date(items.getJSONObject(i).getLong("purchaseDate")),
+                        items.getJSONObject(i).getLong("expirationPeriod"))
+                );
             }
         } catch (org.json.JSONException e) {
             Log.d(TAG, e.getMessage());
