@@ -7,4 +7,6 @@
     <string name="manual_expiration_date">Manual Expiration Date</string>
     <string name="expires_on">Expires on:</string>
     <string name="expiration_notice">*If you don\'t know, we\'ll estimate one for you.</string>
+    <string name="pick_date">Set Expiration Date</string>
+    <string name="save">Save</string>
 </resources>

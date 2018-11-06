@@ -1,18 +1,31 @@
 package com.dfreez3.spoilalert;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddFoodActivity extends Activity implements View.OnClickListener {
+public class AddFoodActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private EditText mFoodName;
+    private Switch mManualDate;
+    private TextView mExpirationDateText;
+    private TextView mExpirationDateLabel;
+    private Button mPickDate;
+    private Button mSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +48,37 @@ public class AddFoodActivity extends Activity implements View.OnClickListener {
 
         mFoodName = findViewById(R.id.food_name_textbox);
         mFoodName.setOnClickListener(this);
+        mManualDate = findViewById(R.id.manual_expiration_switch);
+        mManualDate.setOnCheckedChangeListener(this);
+        mExpirationDateText = findViewById(R.id.expiration_date_text);
+        mExpirationDateText.setOnClickListener(this);
+        mExpirationDateLabel = findViewById(R.id.expiration_date_label);
+        mPickDate = findViewById(R.id.set_date_button);
+        mPickDate.setOnClickListener(this);
+        mSave = findViewById(R.id.save_button);
+        mSave.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        
+        if (v.getId() == mPickDate.getId()){
+            DialogFragment newFragment = new DatePickerFragment();
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+        } else if (v.getId() == mSave.getId()){
+            String name = mFoodName.getText().toString();
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked) {
+            mPickDate.setVisibility(View.VISIBLE);
+            mExpirationDateText.setVisibility(View.VISIBLE);
+            mExpirationDateLabel.setVisibility(View.VISIBLE);
+        } else {
+            mPickDate.setVisibility(View.GONE);
+            mExpirationDateText.setVisibility(View.GONE);
+            mExpirationDateLabel.setVisibility(View.GONE);
+        }
     }
 }
