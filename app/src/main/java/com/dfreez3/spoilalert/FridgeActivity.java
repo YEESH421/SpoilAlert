@@ -3,18 +3,27 @@ package com.dfreez3.spoilalert;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class FridgeActivity extends Activity implements View.OnClickListener {
+
+    private static final String TAG = "FRIDGE_DEBUG -> ";
+
+    private static final String ITEM_FILENAME = "items.json";
 
     private Timer autoUpdate;
 
@@ -24,15 +33,37 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
     private ArrayList<FoodModel> listContents;
     private FoodAdapter arrayAdapter;
 
+    private String getItemFileContents() {
+        try {
+            return StorageService.getOrCreateJSON(ITEM_FILENAME);
+        } catch (IOException e) {
+            Log.d(TAG, e.getMessage());
+            return StorageService.BLANK_JSON;
+        }
+    }
+
+    private void loadJSONData() {
+        String in = getItemFileContents();
+
+        try {
+            JSONObject reader = new JSONObject(in);
+            JSONArray items = reader.getJSONArray("items");
+
+            for(int i = 0; i < items.length(); i++) {
+                listContents.add(new FoodModel(
+                        items.getJSONObject(i).getString("name"),
+                        new Date(items.getJSONObject(i).getLong("purchaseDate")),
+                        items.getJSONObject(i).getLong("expirationPeriod"))
+                );
+            }
+        } catch (org.json.JSONException e) {
+            Log.d(TAG, e.getMessage());
+        }
+    }
+
     private void createList() {
         listContents = new ArrayList<>();
-        listContents.add(new FoodModel("Eggs", new Date(), 432000000L));
-        Date appleDate = new Date(new Date().getTime() - 400000000L);
-        listContents.add(new FoodModel("Apple", appleDate, 432000000L));
-        Date milkDate = new Date(new Date().getTime() - 200000000L);
-        listContents.add(new FoodModel("Milk", milkDate, 432000000L));
-        Date bananaDate = new Date(new Date().getTime() - 300000000L);
-        listContents.add(new FoodModel("Banana", bananaDate, 432000000L));
+        loadJSONData();
 
         arrayAdapter = new FoodAdapter(listContents, this);
 
