@@ -15,6 +15,18 @@ import java.io.IOException;
 public class StorageService {
 
     public static final String BLANK_JSON = "{\n\t\"items\": [\n\t]\n}";
+    private static final String ITEM_FILENAME = "items.json";
+    private static final String TAG = "StorageService";
+
+
+    public static void addItemToJson(FoodModel foodModel){
+
+        try {
+            addItemToJson(foodModel, getOrCreateJSON(ITEM_FILENAME), ITEM_FILENAME);
+        } catch (IOException e) {
+            Log.e(TAG, "Error writing to json: ", e);
+        }
+    }
 
     public static void addItemToJson(FoodModel foodModel, String jsonContents, String filename) {
         try {
@@ -24,7 +36,7 @@ public class StorageService {
 
             newItem.put("name", foodModel.getName());
             newItem.put("expirationPeriod", foodModel.getExpirationPeriod());
-            newItem.put("purchaseDate", foodModel.getPurchaseDate());
+            newItem.put("purchaseDate", foodModel.getPurchaseDate().getTime());
 
             items.put(newItem);
             JSONObject newJsonFile = new JSONObject();
@@ -38,6 +50,10 @@ public class StorageService {
         } catch (Exception e) {
             Log.d("", e.getMessage());
         }
+    }
+
+    public static String getOrCreateJSON() throws IOException {
+        return getOrCreateJSON(ITEM_FILENAME);
     }
 
     public static String getOrCreateJSON(String filename) throws IOException {

@@ -23,7 +23,6 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "FRIDGE_DEBUG -> ";
 
-    private static final String ITEM_FILENAME = "items.json";
 
     private Timer autoUpdate;
 
@@ -35,7 +34,7 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
     private String getItemFileContents() {
         try {
-            return StorageService.getOrCreateJSON(ITEM_FILENAME);
+            return StorageService.getOrCreateJSON();
         } catch (IOException e) {
             Log.d(TAG, e.getMessage());
             return StorageService.BLANK_JSON;
@@ -110,9 +109,6 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         addButton.setOnClickListener(this);
         search = findViewById(R.id.search_button);
         search.setOnClickListener(this);
-
-
-        createList();
     }
 
     @Override
@@ -130,5 +126,6 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
                 });
             }
         }, 0, 40000);
+        createList();
     }
 }

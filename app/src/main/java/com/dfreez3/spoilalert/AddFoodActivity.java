@@ -18,6 +18,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 public class AddFoodActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private EditText mFoodName;
@@ -66,6 +68,16 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             newFragment.show(getSupportFragmentManager(), "datePicker");
         } else if (v.getId() == mSave.getId()){
             String name = mFoodName.getText().toString();
+            Date purchaseDate = new Date();
+
+            //TODO actually calculate this from the UI
+            // 5 days in milliseconds
+            long expirationPeriod = 24 * 60 * 60 * 1000 * 5;
+            FoodModel model = new FoodModel(name, purchaseDate, expirationPeriod);
+
+            StorageService.addItemToJson(model);
+
+            finish();
         }
     }
 
