@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class StorageService {
 
@@ -18,9 +20,42 @@ public class StorageService {
     private static final String ITEM_FILENAME = "items.json";
     private static final String TAG = "StorageService";
 
+    public static int getNextAvailableId() {
+        try {
+            JSONObject jsonFile = new JSONObject(getOrCreateJSON(ITEM_FILENAME));
+            JSONArray items = jsonFile.getJSONArray("items");
+
+            return items.length();
+        } catch (Exception e) {
+            Log.d("", e.getMessage());
+            return 0;
+        }
+    }
+
+    public static void deleteItemsFromJson(List<Integer> ids) {
+        try {
+            JSONObject jsonFile = new JSONObject(getOrCreateJSON(ITEM_FILENAME));
+            JSONArray items = jsonFile.getJSONArray("items");
+            int adjustment = 0;
+            Collections.sort(ids);
+            for(int id : ids) {
+                items.remove(id - adjustment);
+                adjustment++;
+            }
+            JSONObject newJsonFile = new JSONObject();
+            newJsonFile.put("items", items);
+
+            File root = new File(Environment.getDataDirectory(), "data/com.dfreez3.spoilalert/config");
+            FileWriter jsonWrite = new FileWriter(new File(root, ITEM_FILENAME));
+            jsonWrite.write(newJsonFile.toString());
+            jsonWrite.flush();
+            jsonWrite.close();
+        } catch (Exception e) {
+            Log.d("", e.getMessage());
+        }
+    }
 
     public static void addItemToJson(FoodModel foodModel){
-
         try {
             addItemToJson(foodModel, getOrCreateJSON(ITEM_FILENAME), ITEM_FILENAME);
         } catch (IOException e) {

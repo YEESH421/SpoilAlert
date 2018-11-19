@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,11 +24,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "FRIDGE_DEBUG -> ";
 
-
     private Timer autoUpdate;
 
     private ImageView addButton;
-    private ImageView search;
+    private ImageView searchButton;
+    private ImageView deleteButton;
 
     private ArrayList<FoodModel> listContents;
     private FoodAdapter arrayAdapter;
@@ -49,7 +50,7 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
             JSONArray items = reader.getJSONArray("items");
 
             for(int i = 0; i < items.length(); i++) {
-                listContents.add(new FoodModel(
+                listContents.add(new FoodModel(i,
                         items.getJSONObject(i).getString("name"),
                         new Date(items.getJSONObject(i).getLong("purchaseDate")),
                         items.getJSONObject(i).getLong("expirationPeriod"))
@@ -78,8 +79,22 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
                     AddFoodActivity.class
             );
             startActivity(addFoodIntent);
-        } else if(v.getId() == search.getId()) {
+        } else if(v.getId() == searchButton.getId()) {
 
+        } else if(v.getId() == deleteButton.getId()) {
+            List<Integer> deleteList = this.arrayAdapter.getSelectionContent();
+
+            ArrayList<Integer> ids = new ArrayList<>();
+            for(FoodModel model : this.listContents) {
+                if(deleteList.contains(model.getId())) {
+                    ids.add(model.getId());
+                }
+            }
+            if(ids.size() > 0) {
+                StorageService.deleteItemsFromJson(ids);
+                arrayAdapter.notifyDataSetChanged();
+                createList();
+            }
         }
     }
 
@@ -107,25 +122,31 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
         addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(this);
-        search = findViewById(R.id.search_button);
-        search.setOnClickListener(this);
+        searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(this);
+        deleteButton = findViewById(R.id.delete_button);
+        deleteButton.setOnClickListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        autoUpdate = new Timer();
-        autoUpdate.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        arrayAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }, 0, 40000);
+
+        if(this.autoUpdate == null) {
+            this.autoUpdate = new Timer();
+            this.autoUpdate.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            }, 0, 40000);
+        }
+
         createList();
     }
 }

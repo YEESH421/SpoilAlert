@@ -4,14 +4,20 @@ import java.util.Date;
 
 public class FoodModel {
 
+    private int id;
     private String name;
     private Date purchaseDate;
     private long expirationPeriod;
 
-    public FoodModel(String name, Date purchaseDate, long expirationPeriod) {
+    public FoodModel(int id, String name, Date purchaseDate, long expirationPeriod) {
+        this.id = id;
         this.name = name;
         this.purchaseDate = purchaseDate;
         this.expirationPeriod = expirationPeriod;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String getName() {

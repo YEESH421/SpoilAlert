@@ -11,14 +11,22 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class FoodAdapter extends ArrayAdapter<FoodModel> {
+public class FoodAdapter extends ArrayAdapter<FoodModel> implements View.OnLongClickListener, View.OnClickListener {
 
     private final long DAY_IN_MILLISECONDS = 86400000;
 
     private Context context;
 
+    private boolean selectionMode;
+
+    private Set<View> selectionSet;
+
     private static class ViewHolder {
+        TextView id;
         TextView txtName;
         TextView txtDate;
         RelativeLayout progressBar;
@@ -35,10 +43,34 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> {
         }
     };
 
+    @Override
+    public boolean onLongClick(View v) {
+        if(!this.selectionMode) {
+            this.setSelectionMode(true, v);
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (this.selectionMode) {
+            if (this.selectionSet.contains(v)) {
+                this.selectionSet.remove(v);
+                this.deselect(v);
+            } else {
+                this.selectionSet.add(v);
+                this.select(v);
+            }
+        }
+    }
+
     public FoodAdapter(ArrayList<FoodModel> data, Context context) {
         super(context, R.layout.row_item, data);
         this.sort(this.foodModelComparator);
         this.context = context;
+        this.selectionMode = false;
+        this.selectionSet = new HashSet<>();
     }
 
     @Override
@@ -53,6 +85,7 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> {
             viewHolder.txtName = convertView.findViewById(R.id.name);
             viewHolder.txtDate = convertView.findViewById(R.id.date);
             viewHolder.progressBar = convertView.findViewById(R.id.progress_bar);
+            viewHolder.id = convertView.findViewById(R.id.row_id);
 
             convertView.setTag(viewHolder);
         } else {
@@ -70,6 +103,11 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> {
         } else {
             viewHolder.txtDate.setText("Less than a day");
         }
+
+        viewHolder.id.setText(Integer.toString(foodModel.getId()));
+
+        convertView.setOnLongClickListener(this);
+        convertView.setOnClickListener(this);
 
         RelativeLayout background = convertView.findViewById(R.id.item_background);
 
@@ -119,4 +157,31 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> {
         });
     }
 
+    private void setSelectionMode(boolean mode, View v) {
+        this.selectionMode = mode;
+
+        if(v != null) {
+            this.selectionSet.add(v);
+            this.select(v);
+        }
+    }
+
+    private void select(View v) {
+        v.setBackground(context.getResources().getDrawable(R.drawable.select_background, null));
+    }
+
+    private void deselect(View v) {
+        v.setBackgroundColor(0);
+    }
+
+    public List<Integer> getSelectionContent() {
+        List<Integer> idList = new ArrayList<>();
+
+        for(View v : this.selectionSet) {
+            TextView tv =  v.findViewById(R.id.row_id);
+            idList.add(Integer.parseInt(tv.getText().toString()));
+        }
+
+        return idList;
+    }
 }

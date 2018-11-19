@@ -1,22 +1,16 @@
 package com.dfreez3.spoilalert;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Date;
 
@@ -73,7 +67,8 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             //TODO actually calculate this from the UI
             // 5 days in milliseconds
             long expirationPeriod = 24 * 60 * 60 * 1000 * 5;
-            FoodModel model = new FoodModel(name, purchaseDate, expirationPeriod);
+
+            FoodModel model = new FoodModel(StorageService.getNextAvailableId(), name, purchaseDate, expirationPeriod);
 
             StorageService.addItemToJson(model);
 
