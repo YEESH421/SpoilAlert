@@ -78,7 +78,7 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> implements View.OnLongC
         FoodModel foodModel = getItem(position);
         ViewHolder viewHolder;
 
-        if(convertView == null) {
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.row_item, parent, false);
@@ -96,8 +96,9 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> implements View.OnLongC
 
         long timeLeft = foodModel.getPurchaseDate().getTime() + foodModel.getExpirationPeriod()
                 - new Date().getTime();
-
-        if (timeLeft > DAY_IN_MILLISECONDS) {
+        if(timeLeft < 0) {
+            viewHolder.txtDate.setText("EXPIRED");
+        } else if (timeLeft > DAY_IN_MILLISECONDS) {
             int daysLeft = (int)(timeLeft / DAY_IN_MILLISECONDS) + 1;
             viewHolder.txtDate.setText(daysLeft + " days left");
         } else {
@@ -159,6 +160,12 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> implements View.OnLongC
 
     private void setSelectionMode(boolean mode, View v) {
         this.selectionMode = mode;
+
+        /*
+         * This is awful and we probably shouldn't do this. LMAO
+         */
+        FridgeActivity activity = (FridgeActivity)this.context;
+        activity.setSelectionMode();
 
         if(v != null) {
             this.selectionSet.add(v);

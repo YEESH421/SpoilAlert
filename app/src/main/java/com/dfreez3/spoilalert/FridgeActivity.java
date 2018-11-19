@@ -28,10 +28,31 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
     private ImageView addButton;
     private ImageView searchButton;
+    private ImageView filterButton;
     private ImageView deleteButton;
+    private ImageView settingsButton;
+    private ImageView cancelButton;
 
     private ArrayList<FoodModel> listContents;
     private FoodAdapter arrayAdapter;
+
+    public void setSelectionMode() {
+        addButton.setVisibility(View.GONE);
+        searchButton.setVisibility(View.GONE);
+        filterButton.setVisibility(View.GONE);
+        settingsButton.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.VISIBLE);
+        cancelButton.setVisibility(View.VISIBLE);
+    }
+
+    private void unsetSelectionMode() {
+        addButton.setVisibility(View.VISIBLE);
+        searchButton.setVisibility(View.VISIBLE);
+        filterButton.setVisibility(View.VISIBLE);
+        settingsButton.setVisibility(View.VISIBLE);
+        deleteButton.setVisibility(View.GONE);
+        cancelButton.setVisibility(View.GONE);
+    }
 
     private String getItemFileContents() {
         try {
@@ -79,8 +100,9 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
                     AddFoodActivity.class
             );
             startActivity(addFoodIntent);
-        } else if(v.getId() == searchButton.getId()) {
-
+        } else if(v.getId() == cancelButton.getId()) {
+            unsetSelectionMode();
+            createList();
         } else if(v.getId() == deleteButton.getId()) {
             List<Integer> deleteList = this.arrayAdapter.getSelectionContent();
 
@@ -92,9 +114,10 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
             }
             if(ids.size() > 0) {
                 StorageService.deleteItemsFromJson(ids);
-                arrayAdapter.notifyDataSetChanged();
-                createList();
             }
+            createList();
+
+            unsetSelectionMode();
         }
     }
 
@@ -126,6 +149,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         searchButton.setOnClickListener(this);
         deleteButton = findViewById(R.id.delete_button);
         deleteButton.setOnClickListener(this);
+        cancelButton = findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(this);
+
+        filterButton = findViewById(R.id.filter_button);
+        settingsButton = findViewById(R.id.settings_button);
     }
 
     @Override
