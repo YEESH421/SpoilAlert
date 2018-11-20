@@ -26,8 +26,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        TextView expirationDate = getActivity().findViewById(R.id.expiration_date_text);
-        String date = Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year);
-        expirationDate.setText(date);
+        ((AddFoodActivity) getActivity()).setExpirationDate(year, month, day);
     }
 }
