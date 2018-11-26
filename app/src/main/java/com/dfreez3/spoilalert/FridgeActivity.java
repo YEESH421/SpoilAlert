@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +17,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,12 +29,33 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
     private Timer autoUpdate;
 
     private ImageView addButton;
+    private ImageView searchButton;
+    private ImageView filterButton;
+    private ImageView deleteButton;
+    private ImageView settingsButton;
+    private ImageView cancelButton;
     private ImageView search;
     private EditText editText;
 
     private ArrayList<FoodModel> listContents;
     private FoodAdapter arrayAdapter;
 
+    public void setSelectionMode() {
+        addButton.setVisibility(View.GONE);
+        searchButton.setVisibility(View.GONE);
+        filterButton.setVisibility(View.GONE);
+        settingsButton.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.VISIBLE);
+        cancelButton.setVisibility(View.VISIBLE);
+    }
+    private void unsetSelectionMode() {
+        addButton.setVisibility(View.VISIBLE);
+        searchButton.setVisibility(View.VISIBLE);
+        filterButton.setVisibility(View.VISIBLE);
+        settingsButton.setVisibility(View.VISIBLE);
+        deleteButton.setVisibility(View.GONE);
+        cancelButton.setVisibility(View.GONE);
+    }
 
     private String getItemFileContents() {
         try {
@@ -53,13 +74,12 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
             JSONArray items = reader.getJSONArray("items");
 
             for(int i = 0; i < items.length(); i++) {
-                listContents.add(new FoodModel(
+                listContents.add(new FoodModel(i,
                         items.getJSONObject(i).getString("name"),
                         new Date(items.getJSONObject(i).getLong("purchaseDate")),
                         items.getJSONObject(i).getLong("expirationPeriod"))
                 );
             }
-
 
         } catch (org.json.JSONException e) {
             Log.d(TAG, e.getMessage());
@@ -89,7 +109,7 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == addButton.getId()) {
+        if (v.getId() == addButton.getId()) {
             Intent addFoodIntent = new Intent(
                     FridgeActivity.this,
                     AddFoodActivity.class
@@ -98,10 +118,24 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         } else if (v.getId() == search.getId()) {
             String value = editText.getText().toString();
             updateList(value);
+        } else if (v.getId() == cancelButton.getId()) {
+            unsetSelectionMode();
+            createList();
+        } else if (v.getId() == deleteButton.getId()) {
+            List<Integer> deleteList = this.arrayAdapter.getSelectionContent();
+            ArrayList<Integer> ids = new ArrayList<>();
+            for (FoodModel model : this.listContents) {
+                if (deleteList.contains(model.getId())) {
+                    ids.add(model.getId());
                 }
             }
-
-
+            if (ids.size() > 0) {
+                StorageService.deleteItemsFromJson(ids);
+            }
+            createList();
+            unsetSelectionMode();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +161,14 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
 
         addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(this);
-        search = findViewById(R.id.search_button);
-        search.setOnClickListener(this);
+        searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(this);
+        deleteButton = findViewById(R.id.delete_button);
+        deleteButton.setOnClickListener(this);
+        cancelButton = findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(this);
+        filterButton = findViewById(R.id.filter_button);
+        settingsButton = findViewById(R.id.settings_button);
         editText = findViewById(R.id.editText);
         editText.setOnClickListener(this);
     }
