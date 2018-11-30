@@ -115,7 +115,7 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
                     AddFoodActivity.class
             );
             startActivity(addFoodIntent);
-        } else if (v.getId() == search.getId()) {
+        } else if (v.getId() == searchButton.getId()) {
             String value = editText.getText().toString();
             updateList(value);
         } else if (v.getId() == cancelButton.getId()) {
@@ -134,7 +134,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
             }
             createList();
             unsetSelectionMode();
+        } else if(v.getId() == settingsButton.getId()) {
+            Intent settingsIntent = new Intent(FridgeActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
         }
+
     }
 
     @Override
@@ -169,8 +173,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         cancelButton.setOnClickListener(this);
         filterButton = findViewById(R.id.filter_button);
         settingsButton = findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(this);
         editText = findViewById(R.id.editText);
         editText.setOnClickListener(this);
+
+
     }
 
     @Override
