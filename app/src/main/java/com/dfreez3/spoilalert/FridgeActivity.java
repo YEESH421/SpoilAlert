@@ -34,7 +34,6 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
     private ImageView deleteButton;
     private ImageView settingsButton;
     private ImageView cancelButton;
-    private ImageView search;
     private EditText editText;
 
     private ArrayList<FoodModel> listContents;
@@ -97,14 +96,20 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         listView.setAdapter(arrayAdapter);
     }
     private void updateList(String s) {
-        ArrayList temp = new ArrayList<>();
+        if(s.isEmpty()) {
+            this.createList();
+            return;
+        }
+        ArrayList<FoodModel> temp = new ArrayList<>();
         for (FoodModel f : listContents) {
             if (f.getName().equals(s)) {
                 temp.add(f);
             }
         }
-        listContents.clear();
-        arrayAdapter.notifyDataSetChanged();
+        listContents = temp;
+        arrayAdapter = new FoodAdapter(listContents, this);
+        ListView listView = findViewById(R.id.food_list);
+        listView.setAdapter(arrayAdapter);
     }
 
     @Override
@@ -115,7 +120,7 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
                     AddFoodActivity.class
             );
             startActivity(addFoodIntent);
-        } else if (v.getId() == search.getId()) {
+        } else if (v.getId() == searchButton.getId()) {
             String value = editText.getText().toString();
             updateList(value);
         } else if (v.getId() == cancelButton.getId()) {
@@ -134,7 +139,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
             }
             createList();
             unsetSelectionMode();
+        } else if(v.getId() == settingsButton.getId()) {
+            Intent settingsIntent = new Intent(FridgeActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
         }
+
     }
 
     @Override
@@ -169,8 +178,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         cancelButton.setOnClickListener(this);
         filterButton = findViewById(R.id.filter_button);
         settingsButton = findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(this);
         editText = findViewById(R.id.editText);
         editText.setOnClickListener(this);
+
+
     }
 
     @Override

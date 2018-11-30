@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="95dp"
         android:background="@drawable/background_gradient"
+        android:focusableInTouchMode="true"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -59,12 +60,15 @@
             android:layout_width="206dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="46dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@android:color/transparent"
             android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="Search food"
             android:inputType="textPersonName"
-            android:text="Search food"
+            android:textColor="@android:color/background_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.419"

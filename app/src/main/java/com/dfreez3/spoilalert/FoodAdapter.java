@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -95,23 +94,13 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> implements View.OnLongC
 
         viewHolder.txtName.setText(foodModel.getName());
 
-        // Get the current date at midnight this morning because
-        // Java's dates are dumb
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        Date today = new Date(year, month, day);
-
         long timeLeft = foodModel.getPurchaseDate().getTime() + foodModel.getExpirationPeriod()
-                - today.getTime();
-        if(timeLeft < 0) {
+                - new Date().getTime();
+        int daysLeft = (int)(timeLeft / DAY_IN_MILLISECONDS) + 1 - 693960;
+        if(daysLeft <= 0) {
             viewHolder.txtDate.setText("EXPIRED");
-        } else if (timeLeft > DAY_IN_MILLISECONDS) {
-            int daysLeft = (int)(timeLeft / DAY_IN_MILLISECONDS) + 1;
-            viewHolder.txtDate.setText(daysLeft + " days left");
         } else {
-            viewHolder.txtDate.setText("Less than a day");
+            viewHolder.txtDate.setText(daysLeft + " days left");
         }
 
         viewHolder.id.setText(Integer.toString(foodModel.getId()));
@@ -132,13 +121,7 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> implements View.OnLongC
         /*
          * Create constant aliases.
          */
-        // Get the current date at midnight this morning because
-        // Java's dates are dumb
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        final Date currentTime = new Date(year, month, day);
+        final Date currentTime = new Date();
         final FoodModel foodModelF = foodModel;
         final RelativeLayout progressLayoutF = progressLayout;
 

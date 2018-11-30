@@ -1,12 +1,11 @@
 package com.dfreez3.spoilalert;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -27,5 +26,9 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         ((AddFoodActivity) getActivity()).setExpirationDate(year, month, day);
+        TextView expirationDate = getActivity().findViewById(R.id.expiration_date_text);
+        String date = Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year);
+        expirationDate.setText(date);
+
     }
 }
