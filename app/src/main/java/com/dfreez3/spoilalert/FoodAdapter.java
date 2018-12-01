@@ -99,7 +99,7 @@ public class FoodAdapter extends ArrayAdapter<FoodModel> implements View.OnLongC
         if(timeLeft < 0) {
             viewHolder.txtDate.setText("EXPIRED");
         } else if (timeLeft > DAY_IN_MILLISECONDS) {
-            int daysLeft = (int)(timeLeft / DAY_IN_MILLISECONDS) + 1;
+            int daysLeft = (int)(timeLeft / DAY_IN_MILLISECONDS) + 1 - 693960;
             viewHolder.txtDate.setText(daysLeft + " days left");
         } else {
             viewHolder.txtDate.setText("Less than a day");
