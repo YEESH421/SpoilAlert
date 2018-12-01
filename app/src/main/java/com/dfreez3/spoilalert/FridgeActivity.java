@@ -139,7 +139,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
             }
             createList();
             unsetSelectionMode();
+        } else if(v.getId() == settingsButton.getId()) {
+            Intent settingsIntent = new Intent(FridgeActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
         }
+
     }
 
     @Override
@@ -174,8 +178,11 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         cancelButton.setOnClickListener(this);
         filterButton = findViewById(R.id.filter_button);
         settingsButton = findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(this);
         editText = findViewById(R.id.editText);
         editText.setOnClickListener(this);
+
+
     }
 
     @Override

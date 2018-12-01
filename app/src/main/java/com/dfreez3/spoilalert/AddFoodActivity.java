@@ -15,12 +15,11 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddFoodActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class AddFoodActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Date mExpirationDate;
 
     private EditText mFoodName;
-    private Switch mManualDate;
     private TextView mExpirationDateText;
     private TextView mExpirationDateLabel;
     private Button mPickDate;
@@ -47,8 +46,6 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
 
         mFoodName = findViewById(R.id.food_name_textbox);
         mFoodName.setOnClickListener(this);
-        mManualDate = findViewById(R.id.manual_expiration_switch);
-        mManualDate.setOnCheckedChangeListener(this);
         mExpirationDateText = findViewById(R.id.expiration_date_text);
         mExpirationDateText.setOnClickListener(this);
         mExpirationDateLabel = findViewById(R.id.expiration_date_label);
@@ -80,19 +77,6 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
 
             // Return to the fridge screen
             finish();
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked) {
-            mPickDate.setVisibility(View.VISIBLE);
-            mExpirationDateText.setVisibility(View.VISIBLE);
-            mExpirationDateLabel.setVisibility(View.VISIBLE);
-        } else {
-            mPickDate.setVisibility(View.GONE);
-            mExpirationDateText.setVisibility(View.GONE);
-            mExpirationDateLabel.setVisibility(View.GONE);
         }
     }
 

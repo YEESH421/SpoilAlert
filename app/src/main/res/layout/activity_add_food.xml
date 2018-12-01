@@ -57,31 +57,13 @@
             android:inputType="textPersonName"
             android:importantForAutofill="no" />
 
-        <Switch
-            android:id="@+id/manual_expiration_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:checked="true"
-            android:text="@string/manual_expiration_date"
-            android:textColor="@color/colorFoodDefault"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/set_date_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/pick_date" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -104,10 +86,16 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/expiration_disclaimer"
+        <Button
+            android:id="@+id/set_date_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/rounded_corner_green"
+            android:text="@string/pick_date"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
         <Button
             android:id="@+id/save_button"
@@ -115,7 +103,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="@string/save" />
+            android:background="@drawable/rounded_corner_blue"
+            android:text="@string/save"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
