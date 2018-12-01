@@ -102,7 +102,7 @@ public class FridgeActivity extends Activity implements View.OnClickListener {
         }
         ArrayList<FoodModel> temp = new ArrayList<>();
         for (FoodModel f : listContents) {
-            if (f.getName().equals(s)) {
+            if (f.getName().contains(s)) {
                 temp.add(f);
             }
         }
