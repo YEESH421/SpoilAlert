@@ -7,12 +7,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class AddFoodActivity extends AppCompatActivity implements View.OnClickListener {
@@ -61,14 +59,18 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             DialogFragment newFragment = new DatePickerFragment();
             newFragment.show(getSupportFragmentManager(), "datePicker");
         } else if (v.getId() == mSave.getId()){
+            if(mExpirationDate == null) {
+                Toast.makeText(this.getApplicationContext(), "Please set an expiration date.", Toast.LENGTH_LONG).show();
+                return;
+            }
             String name = mFoodName.getText().toString();
 
             // Calculate the expiration period in milliseconds.
-            Calendar purchase = Calendar.getInstance();
-            int year = purchase.get(Calendar.YEAR);
-            int month = purchase.get(Calendar.MONTH);
-            int day = purchase.get(Calendar.DATE);
-            Date purchaseDate = new Date(year, month, day);
+//            Calendar purchase = Calendar.getInstance();
+//            int year = purchase.get(Calendar.YEAR);
+//            int month = purchase.get(Calendar.MONTH);
+//            int day = purchase.get(Calendar.DATE);
+            Date purchaseDate = new Date();
             long expirationPeriod = Math.abs(mExpirationDate.getTime() - purchaseDate.getTime());
 
             // Save the food item
